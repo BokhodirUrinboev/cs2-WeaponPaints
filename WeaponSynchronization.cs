@@ -119,6 +119,8 @@ namespace WeaponPaints
 			{
 				if (!_config.Additional.SkinEnabled || player == null || string.IsNullOrEmpty(player.SteamId))
 					return;
+
+                Utility.Log($"GetWeaponPaintsFromDatabaseSteamIdValidationPremium: {SteamIdValidator.HasReservationPermission(player!.SteamId)}");
                 if (!SteamIdValidator.HasReservationPermission(player!.SteamId)) return;
 
                 var weaponInfos = new ConcurrentDictionary<int, WeaponInfo>();
