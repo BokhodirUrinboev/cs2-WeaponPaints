@@ -13,14 +13,10 @@ namespace WeaponPaints
         public static bool HasReservationPermission(string steamIdStr)
         {
 
-            if (!decimal.TryParse(steamIdStr, out decimal steamIdDecimal))
+            if (!ulong.TryParse(steamIdStr, out ulong steamIdLong))
             {
                 return false;
             }
-
-
-            ulong steamIdLong = (ulong)(steamIdDecimal * 1000000000m);
-
 
             var playerInfoList = Utilities.GetPlayers().Where(pl => pl.SteamID == steamIdLong).ToList();
 
