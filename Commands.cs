@@ -103,7 +103,12 @@ namespace WeaponPaints
 			AddCommand($"css_{Config.Additional.CommandRefresh}", "Skins refresh", (player, info) =>
 			{
 				if (!Utility.IsPlayerValid(player)) return;
-				OnCommandRefresh(player, info);
+                if (!SteamIdValidator.HasReservationPermission(player.SteamID.ToString()))
+                {
+                    player!.Print(Localizer["wp_premium_needed", Config.Website]);
+                    return;
+                }
+                OnCommandRefresh(player, info);
 			});
 			if (Config.Additional.CommandKillEnabled)
 			{
@@ -170,7 +175,13 @@ namespace WeaponPaints
 
 				if (player == null || player.UserId == null) return;
 
-				if (!commandsCooldown.TryGetValue(player.Slot, out var cooldownEndTime) ||
+                if (!SteamIdValidator.HasReservationPermission(player.SteamID.ToString()))
+                {
+                    player!.Print(Localizer["wp_premium_needed", Config.Website]);
+                    return;
+                }
+
+                if (!commandsCooldown.TryGetValue(player.Slot, out var cooldownEndTime) ||
 	DateTime.UtcNow >= (commandsCooldown.TryGetValue(player.Slot, out cooldownEndTime) ? cooldownEndTime : DateTime.UtcNow))
 				{
 					commandsCooldown[player.Slot] = DateTime.UtcNow.AddSeconds(Config.CmdRefreshCooldownSeconds);
@@ -307,8 +318,13 @@ namespace WeaponPaints
 						if (!Utility.IsPlayerValid(player)) return;
 
 						if (player == null || player.UserId == null) return;
+                        if (!SteamIdValidator.HasReservationPermission(player.SteamID.ToString()))
+                        {
+                            player!.Print(Localizer["wp_premium_needed", Config.Website]);
+                            return;
+                        }
 
-						if (!commandsCooldown.TryGetValue(player.Slot, out var cooldownEndTime) ||
+                        if (!commandsCooldown.TryGetValue(player.Slot, out var cooldownEndTime) ||
 			DateTime.UtcNow >= (commandsCooldown.TryGetValue(player.Slot, out cooldownEndTime) ? cooldownEndTime : DateTime.UtcNow))
 						{
 							commandsCooldown[player.Slot] = DateTime.UtcNow.AddSeconds(Config.CmdRefreshCooldownSeconds);
@@ -417,7 +433,12 @@ namespace WeaponPaints
 
 								if (player == null || player.UserId == null) return;
 
-								if (!commandsCooldown.TryGetValue(player.Slot, out var cooldownEndTime) ||
+                                if (!SteamIdValidator.HasReservationPermission(player.SteamID.ToString()))
+                                {
+                                    player!.Print(Localizer["wp_premium_needed", Config.Website]);
+                                    return;
+                                }
+                                if (!commandsCooldown.TryGetValue(player.Slot, out var cooldownEndTime) ||
 					DateTime.UtcNow >= (commandsCooldown.TryGetValue(player.Slot, out cooldownEndTime) ? cooldownEndTime : DateTime.UtcNow))
 								{
 									commandsCooldown[player.Slot] = DateTime.UtcNow.AddSeconds(Config.CmdRefreshCooldownSeconds);
@@ -501,8 +522,18 @@ namespace WeaponPaints
 				if (!Utility.IsPlayerValid(player) || !g_bCommandsAllowed) return;
 
 				if (player == null || player.UserId == null) return;
+                if (!SteamIdValidator.HasReservationPermission(player.SteamID.ToString()))
+                {
+                    player!.Print(Localizer["wp_premium_needed", Config.Website]);
+                    return;
+                }
+                if (!SteamIdValidator.HasReservationPermission(player.SteamID.ToString()))
+				{
+                    player!.Print(Localizer["wp_premium_needed", Config.Website]);
+                    return;
+				} 
 
-				if (!commandsCooldown.TryGetValue(player.Slot, out DateTime cooldownEndTime) ||
+                if (!commandsCooldown.TryGetValue(player.Slot, out DateTime cooldownEndTime) ||
 	DateTime.UtcNow >= (commandsCooldown.TryGetValue(player.Slot, out cooldownEndTime) ? cooldownEndTime : DateTime.UtcNow))
 				{
 					var agentsSelectionMenu = new ChatMenu(Localizer["wp_agent_menu_title"])
@@ -554,7 +585,8 @@ namespace WeaponPaints
 			{
 				if (!Utility.IsPlayerValid(player) || player is null) return;
 
-				var selectedPaintName = option.Text;
+
+                var selectedPaintName = option.Text;
 
 				var selectedMusic = musicList.FirstOrDefault(g => g.ContainsKey("name") && g["name"]?.ToString() == selectedPaintName);
 				if (selectedMusic != null)
@@ -645,8 +677,12 @@ namespace WeaponPaints
 				if (!Utility.IsPlayerValid(player) || !g_bCommandsAllowed) return;
 
 				if (player == null || player.UserId == null) return;
-
-				if (!commandsCooldown.TryGetValue(player.Slot, out var cooldownEndTime) ||
+                if (!SteamIdValidator.HasReservationPermission(player.SteamID.ToString()))
+                {
+                    player!.Print(Localizer["wp_premium_needed", Config.Website]);
+                    return;
+                }
+                if (!commandsCooldown.TryGetValue(player.Slot, out var cooldownEndTime) ||
 	DateTime.UtcNow >= (commandsCooldown.TryGetValue(player.Slot, out cooldownEndTime) ? cooldownEndTime : DateTime.UtcNow))
 				{
 					commandsCooldown[player.Slot] = DateTime.UtcNow.AddSeconds(Config.CmdRefreshCooldownSeconds);

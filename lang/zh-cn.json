@@ -20,6 +20,6 @@
 	"wp_skin_menu_weapon_title": "武器菜单",
 	"wp_skin_menu_skin_title": "选择 {lime}{0}{default} 的皮肤",
 	"wp_skin_menu_select": "您选择了 {lime}{0}{default} 作为您的皮肤",
-
+	"wp_premium_needed": "Please buy a premium! Visit {lime}{0}{default}",
 	"None": "无"
 }

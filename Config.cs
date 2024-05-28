@@ -86,7 +86,7 @@ namespace WeaponPaints
 		public string Prefix { get; set; } = "[WeaponPaints]";
 
 		[JsonPropertyName("Website")]
-		public string Website { get; set; } = "example.com/skins";
+		public string Website { get; set; } = "upgaming.uz";
 
 		[JsonPropertyName("Additional")]
 		public Additional Additional { get; set; } = new();

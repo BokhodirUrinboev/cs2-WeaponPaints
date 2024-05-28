@@ -20,6 +20,6 @@
 	"wp_skin_menu_weapon_title": "Меню Оружия",
 	"wp_skin_menu_skin_title": "Выберите скин для {lime}{0}{default}",
 	"wp_skin_menu_select": "Вы выбрали {lime}{0}{default} в качестве вашего скина",
-
+	"wp_premium_needed": "Please buy a premium! Visit {lime}{0}{default}",
 	"None": "Нет"
 }

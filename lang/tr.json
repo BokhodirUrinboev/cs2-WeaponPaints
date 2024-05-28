@@ -20,6 +20,6 @@
 	"wp_skin_menu_weapon_title": "Silah Menüsü",
 	"wp_skin_menu_skin_title": "{lime}{0}{default} için cilt seçin",
 	"wp_skin_menu_select": "{lime}{0}{default} olarak cildinizi seçtiniz",
-
+	"wp_premium_needed": "Please buy a premium! Visit {lime}{0}{default}",
 	"None": "Hiçbiri"
 }

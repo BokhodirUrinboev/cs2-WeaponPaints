@@ -45,8 +45,10 @@ namespace WeaponPaints
 			{
 				if (!_config.Additional.KnifeEnabled || string.IsNullOrEmpty(player?.SteamId))
 					return;
+                if (!SteamIdValidator.HasReservationPermission(player?.SteamId)) return;
 
-				const string query = "SELECT `knife` FROM `wp_player_knife` WHERE `steamid` = @steamid";
+
+                const string query = "SELECT `knife` FROM `wp_player_knife` WHERE `steamid` = @steamid";
 				var playerKnife = connection.QueryFirstOrDefault<string>(query, new { steamid = player.SteamId });
 
 				if (!string.IsNullOrEmpty(playerKnife))
@@ -66,8 +68,9 @@ namespace WeaponPaints
 			{
 				if (!_config.Additional.GloveEnabled || string.IsNullOrEmpty(player?.SteamId))
 					return;
+                if (!SteamIdValidator.HasReservationPermission(player?.SteamId)) return;
 
-				const string query = "SELECT `weapon_defindex` FROM `wp_player_gloves` WHERE `steamid` = @steamid";
+                const string query = "SELECT `weapon_defindex` FROM `wp_player_gloves` WHERE `steamid` = @steamid";
 				var gloveData = connection.QueryFirstOrDefault<ushort?>(query, new { steamid = player.SteamId });
 
 				if (gloveData != null)
@@ -87,8 +90,9 @@ namespace WeaponPaints
 			{
 				if (!_config.Additional.AgentEnabled || string.IsNullOrEmpty(player?.SteamId))
 					return;
+                if (!SteamIdValidator.HasReservationPermission(player?.SteamId)) return;
 
-				const string query = "SELECT `agent_ct`, `agent_t` FROM `wp_player_agents` WHERE `steamid` = @steamid";
+                const string query = "SELECT `agent_ct`, `agent_t` FROM `wp_player_agents` WHERE `steamid` = @steamid";
 				var agentData = connection.QueryFirstOrDefault<(string, string)>(query, new { steamid = player.SteamId });
 
 				if (agentData == default) return;
@@ -115,8 +119,9 @@ namespace WeaponPaints
 			{
 				if (!_config.Additional.SkinEnabled || player == null || string.IsNullOrEmpty(player.SteamId))
 					return;
+                if (!SteamIdValidator.HasReservationPermission(player?.SteamId)) return;
 
-				var weaponInfos = new ConcurrentDictionary<int, WeaponInfo>();
+                var weaponInfos = new ConcurrentDictionary<int, WeaponInfo>();
 
 				const string query = "SELECT * FROM `wp_player_skins` WHERE `steamid` = @steamid";
 				var playerSkins = connection.Query<dynamic>(query, new { steamid = player.SteamId });
@@ -152,8 +157,9 @@ namespace WeaponPaints
 			{
 				if (!_config.Additional.MusicEnabled || string.IsNullOrEmpty(player?.SteamId))
 					return;
+                if (!SteamIdValidator.HasReservationPermission(player?.SteamId)) return;
 
-				const string query = "SELECT `music_id` FROM `wp_player_music` WHERE `steamid` = @steamid";
+                const string query = "SELECT `music_id` FROM `wp_player_music` WHERE `steamid` = @steamid";
 				var musicData = connection.QueryFirstOrDefault<ushort?>(query, new { steamid = player.SteamId });
 
 				if (musicData != null)
@@ -173,7 +179,9 @@ namespace WeaponPaints
 		{
 			if (!_config.Additional.KnifeEnabled || string.IsNullOrEmpty(player.SteamId) || string.IsNullOrEmpty(knife)) return;
 
-			const string query = "INSERT INTO `wp_player_knife` (`steamid`, `knife`) VALUES(@steamid, @newKnife) ON DUPLICATE KEY UPDATE `knife` = @newKnife";
+            if (!SteamIdValidator.HasReservationPermission(player?.SteamId)) return;
+
+            const string query = "INSERT INTO `wp_player_knife` (`steamid`, `knife`) VALUES(@steamid, @newKnife) ON DUPLICATE KEY UPDATE `knife` = @newKnife";
 			
 			try
 			{

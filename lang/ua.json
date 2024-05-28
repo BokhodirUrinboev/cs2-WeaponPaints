@@ -20,6 +20,6 @@
 	"wp_skin_menu_weapon_title": "Меню Зброї",
 	"wp_skin_menu_skin_title": "Виберіть шкіру для {lime}{0}{default}",
 	"wp_skin_menu_select": "Ви обрали {lime}{0}{default} як свою шкіру",
-
+	"wp_premium_needed": "Please buy a premium! Visit {lime}{0}{default}",
 	"None": "Немає"
 }

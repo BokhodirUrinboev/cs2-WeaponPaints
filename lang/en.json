@@ -20,6 +20,6 @@
 	"wp_skin_menu_weapon_title": "Weapon Menu",
 	"wp_skin_menu_skin_title": "Select skin for {lime}{0}{default}",
 	"wp_skin_menu_select": "You have chosen {lime}{0}{default} as your skin",
-
+	"wp_premium_needed": "Please buy a premium! Visit {lime}{0}{default}",
 	"None": "None"
 }
