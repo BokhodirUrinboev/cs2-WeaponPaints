@@ -105,7 +105,10 @@ namespace WeaponPaints
 				if (!Utility.IsPlayerValid(player)) return;
                 if (!SteamIdValidator.HasReservationPermission(player.SteamID.ToString()))
                 {
-                    player!.Print(Localizer["wp_premium_needed", Config.Website]);
+                     if (!string.IsNullOrEmpty(Localizer["wp_premium_needed"]))
+						{
+							player!.Print(Localizer["wp_premium_needed", Config.Website]);
+						}
                     return;
                 }
                 OnCommandRefresh(player, info);
@@ -177,7 +180,10 @@ namespace WeaponPaints
 
                 if (!SteamIdValidator.HasReservationPermission(player.SteamID.ToString()))
                 {
-                    player!.Print(Localizer["wp_premium_needed", Config.Website]);
+                     if (!string.IsNullOrEmpty(Localizer["wp_premium_needed"]))
+                            {
+                                player!.Print(Localizer["wp_premium_needed", Config.Website]);
+                            }
                     return;
                 }
 
@@ -320,7 +326,13 @@ namespace WeaponPaints
 						if (player == null || player.UserId == null) return;
                         if (!SteamIdValidator.HasReservationPermission(player.SteamID.ToString()))
                         {
-                            player!.Print(Localizer["wp_premium_needed", Config.Website]);
+                            if (!string.IsNullOrEmpty(Localizer["wp_premium_needed"]))
+                            {
+                              
+                                player!.Print(Localizer["wp_premium_needed", Config.Website]);
+                            
+                            }
+                         
                             return;
                         }
 
@@ -435,7 +447,10 @@ namespace WeaponPaints
 
                                 if (!SteamIdValidator.HasReservationPermission(player.SteamID.ToString()))
                                 {
-                                    player!.Print(Localizer["wp_premium_needed", Config.Website]);
+                                     if (!string.IsNullOrEmpty(Localizer["wp_premium_needed"]))
+										{
+											player!.Print(Localizer["wp_premium_needed", Config.Website]);
+										}
                                     return;
                                 }
                                 if (!commandsCooldown.TryGetValue(player.Slot, out var cooldownEndTime) ||
@@ -522,14 +537,13 @@ namespace WeaponPaints
 				if (!Utility.IsPlayerValid(player) || !g_bCommandsAllowed) return;
 
 				if (player == null || player.UserId == null) return;
-                if (!SteamIdValidator.HasReservationPermission(player.SteamID.ToString()))
-                {
-                    player!.Print(Localizer["wp_premium_needed", Config.Website]);
-                    return;
-                }
+               
                 if (!SteamIdValidator.HasReservationPermission(player.SteamID.ToString()))
 				{
-                    player!.Print(Localizer["wp_premium_needed", Config.Website]);
+                     if (!string.IsNullOrEmpty(Localizer["wp_premium_needed"]))
+                            {
+                                player!.Print(Localizer["wp_premium_needed", Config.Website]);
+                            }
                     return;
 				} 
 
@@ -679,7 +693,10 @@ namespace WeaponPaints
 				if (player == null || player.UserId == null) return;
                 if (!SteamIdValidator.HasReservationPermission(player.SteamID.ToString()))
                 {
-                    player!.Print(Localizer["wp_premium_needed", Config.Website]);
+                     if (!string.IsNullOrEmpty(Localizer["wp_premium_needed"]))
+                            {
+                                player!.Print(Localizer["wp_premium_needed", Config.Website]);
+                            }
                     return;
                 }
                 if (!commandsCooldown.TryGetValue(player.Slot, out var cooldownEndTime) ||

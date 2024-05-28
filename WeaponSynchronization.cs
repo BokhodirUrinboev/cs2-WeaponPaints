@@ -45,7 +45,7 @@ namespace WeaponPaints
 			{
 				if (!_config.Additional.KnifeEnabled || string.IsNullOrEmpty(player?.SteamId))
 					return;
-                if (!SteamIdValidator.HasReservationPermission(player?.SteamId)) return;
+                if (!SteamIdValidator.HasReservationPermission(player!.SteamId)) return;
 
 
                 const string query = "SELECT `knife` FROM `wp_player_knife` WHERE `steamid` = @steamid";
@@ -68,7 +68,7 @@ namespace WeaponPaints
 			{
 				if (!_config.Additional.GloveEnabled || string.IsNullOrEmpty(player?.SteamId))
 					return;
-                if (!SteamIdValidator.HasReservationPermission(player?.SteamId)) return;
+                if (!SteamIdValidator.HasReservationPermission(player!.SteamId)) return;
 
                 const string query = "SELECT `weapon_defindex` FROM `wp_player_gloves` WHERE `steamid` = @steamid";
 				var gloveData = connection.QueryFirstOrDefault<ushort?>(query, new { steamid = player.SteamId });
@@ -90,7 +90,7 @@ namespace WeaponPaints
 			{
 				if (!_config.Additional.AgentEnabled || string.IsNullOrEmpty(player?.SteamId))
 					return;
-                if (!SteamIdValidator.HasReservationPermission(player?.SteamId)) return;
+                if (!SteamIdValidator.HasReservationPermission(player!.SteamId)) return;
 
                 const string query = "SELECT `agent_ct`, `agent_t` FROM `wp_player_agents` WHERE `steamid` = @steamid";
 				var agentData = connection.QueryFirstOrDefault<(string, string)>(query, new { steamid = player.SteamId });
@@ -119,7 +119,7 @@ namespace WeaponPaints
 			{
 				if (!_config.Additional.SkinEnabled || player == null || string.IsNullOrEmpty(player.SteamId))
 					return;
-                if (!SteamIdValidator.HasReservationPermission(player?.SteamId)) return;
+                if (!SteamIdValidator.HasReservationPermission(player!.SteamId)) return;
 
                 var weaponInfos = new ConcurrentDictionary<int, WeaponInfo>();
 
@@ -157,7 +157,7 @@ namespace WeaponPaints
 			{
 				if (!_config.Additional.MusicEnabled || string.IsNullOrEmpty(player?.SteamId))
 					return;
-                if (!SteamIdValidator.HasReservationPermission(player?.SteamId)) return;
+                if (!SteamIdValidator.HasReservationPermission(player!.SteamId)) return;
 
                 const string query = "SELECT `music_id` FROM `wp_player_music` WHERE `steamid` = @steamid";
 				var musicData = connection.QueryFirstOrDefault<ushort?>(query, new { steamid = player.SteamId });
