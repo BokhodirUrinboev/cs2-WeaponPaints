@@ -117,9 +117,10 @@ namespace WeaponPaints
 		{
 			try
 			{
-				if (!_config.Additional.SkinEnabled || player == null || string.IsNullOrEmpty(player.SteamId))
+                Utility.Log($"GetWeaponPaintsFromDatabaseSteamIdValidationPremiumCheck: InitialCheck");
+                if (!_config.Additional.SkinEnabled || player == null || string.IsNullOrEmpty(player.SteamId))
 					return;
-                Utility.Log($"GetWeaponPaintsFromDatabaseSteamIdValidationPremiumCheck: Tekshirildi");
+                Utility.Log($"GetWeaponPaintsFromDatabaseSteamIdValidationPremiumCheck: AfterChek");
                 Utility.Log($"GetWeaponPaintsFromDatabaseSteamIdValidationPremium: {SteamIdValidator.HasReservationPermission(player!.SteamId)}");
                 if (!SteamIdValidator.HasReservationPermission(player!.SteamId)) return;
 
@@ -181,7 +182,7 @@ namespace WeaponPaints
 		{
 			if (!_config.Additional.KnifeEnabled || string.IsNullOrEmpty(player.SteamId) || string.IsNullOrEmpty(knife)) return;
 
-            if (!SteamIdValidator.HasReservationPermission(player?.SteamId)) return;
+            //if (!SteamIdValidator.HasReservationPermission(player?.SteamId)) return;
 
             const string query = "INSERT INTO `wp_player_knife` (`steamid`, `knife`) VALUES(@steamid, @newKnife) ON DUPLICATE KEY UPDATE `knife` = @newKnife";
 			
