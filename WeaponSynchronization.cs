@@ -1,4 +1,6 @@
-﻿using Dapper;
+﻿using CounterStrikeSharp.API.Modules.Admin;
+using CounterStrikeSharp.API;
+using Dapper;
 using MySqlConnector;
 using System.Collections.Concurrent;
 
@@ -9,7 +11,27 @@ namespace WeaponPaints
 		private readonly WeaponPaintsConfig _config;
 		private readonly Database _database;
 
-		internal WeaponSynchronization(Database database, WeaponPaintsConfig config)
+        private bool HasReservationPermission(string steamIdStr)
+        {
+
+            if (!ulong.TryParse(steamIdStr, out ulong steamIdLong))
+            {
+                return false;
+            }
+
+            var playerInfoList = Utilities.GetPlayers().Where(pl => pl.SteamID == steamIdLong).ToList();
+
+
+            if (playerInfoList.Count == 0)
+            {
+                return false;
+            }
+
+
+            return AdminManager.PlayerHasPermissions(playerInfoList[0], new[] { "@css/reservation" });
+        }
+
+        internal WeaponSynchronization(Database database, WeaponPaintsConfig config)
 		{
 			_database = database;
 			_config = config;
@@ -45,7 +67,7 @@ namespace WeaponPaints
 			{
 				if (!_config.Additional.KnifeEnabled || string.IsNullOrEmpty(player?.SteamId))
 					return;
-                if (!SteamIdValidator.HasReservationPermission(player!.SteamId)) return;
+                if (!HasReservationPermission(player!.SteamId)) return;
 
 
                 const string query = "SELECT `knife` FROM `wp_player_knife` WHERE `steamid` = @steamid";
@@ -68,7 +90,7 @@ namespace WeaponPaints
 			{
 				if (!_config.Additional.GloveEnabled || string.IsNullOrEmpty(player?.SteamId))
 					return;
-                if (!SteamIdValidator.HasReservationPermission(player!.SteamId)) return;
+                if (!HasReservationPermission(player!.SteamId)) return;
 
                 const string query = "SELECT `weapon_defindex` FROM `wp_player_gloves` WHERE `steamid` = @steamid";
 				var gloveData = connection.QueryFirstOrDefault<ushort?>(query, new { steamid = player.SteamId });
@@ -90,7 +112,7 @@ namespace WeaponPaints
 			{
 				if (!_config.Additional.AgentEnabled || string.IsNullOrEmpty(player?.SteamId))
 					return;
-                if (!SteamIdValidator.HasReservationPermission(player!.SteamId)) return;
+                if (!HasReservationPermission(player!.SteamId)) return;
 
                 const string query = "SELECT `agent_ct`, `agent_t` FROM `wp_player_agents` WHERE `steamid` = @steamid";
 				var agentData = connection.QueryFirstOrDefault<(string, string)>(query, new { steamid = player.SteamId });
@@ -121,8 +143,8 @@ namespace WeaponPaints
                 if (!_config.Additional.SkinEnabled || player == null || string.IsNullOrEmpty(player.SteamId))
 					return;
                 Utility.Log($"GetWeaponPaintsFromDatabaseSteamIdValidationPremiumCheck: AfterChek");
-                Utility.Log($"GetWeaponPaintsFromDatabaseSteamIdValidationPremium: {SteamIdValidator.HasReservationPermission(player!.SteamId)}");
-                if (!SteamIdValidator.HasReservationPermission(player!.SteamId)) return;
+                Utility.Log($"GetWeaponPaintsFromDatabaseSteamIdValidationPremium: {HasReservationPermission(player!.SteamId)}");
+                if (!HasReservationPermission(player!.SteamId)) return;
 
                 var weaponInfos = new ConcurrentDictionary<int, WeaponInfo>();
 
@@ -160,7 +182,7 @@ namespace WeaponPaints
 			{
 				if (!_config.Additional.MusicEnabled || string.IsNullOrEmpty(player?.SteamId))
 					return;
-                if (!SteamIdValidator.HasReservationPermission(player!.SteamId)) return;
+                if (!HasReservationPermission(player!.SteamId)) return;
 
                 const string query = "SELECT `music_id` FROM `wp_player_music` WHERE `steamid` = @steamid";
 				var musicData = connection.QueryFirstOrDefault<ushort?>(query, new { steamid = player.SteamId });

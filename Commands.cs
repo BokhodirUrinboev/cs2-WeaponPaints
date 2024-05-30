@@ -1,5 +1,6 @@
 ﻿using CounterStrikeSharp.API;
 using CounterStrikeSharp.API.Core;
+using CounterStrikeSharp.API.Modules.Admin;
 using CounterStrikeSharp.API.Modules.Commands;
 using CounterStrikeSharp.API.Modules.Menu;
 using Newtonsoft.Json.Linq;
@@ -8,7 +9,26 @@ namespace WeaponPaints
 {
 	public partial class WeaponPaints
 	{
-		private void OnCommandRefresh(CCSPlayerController? player, CommandInfo command)
+        private bool HasReservationPermission(string steamIdStr)
+        {
+
+            if (!ulong.TryParse(steamIdStr, out ulong steamIdLong))
+            {
+                return false;
+            }
+
+            var playerInfoList = Utilities.GetPlayers().Where(pl => pl.SteamID == steamIdLong).ToList();
+
+
+            if (playerInfoList.Count == 0)
+            {
+                return false;
+            }
+
+
+            return AdminManager.PlayerHasPermissions(playerInfoList[0], new[] { "@css/reservation" });
+        }
+        private void OnCommandRefresh(CCSPlayerController? player, CommandInfo command)
 		{
 			if (!Config.Additional.CommandWpEnabled || !Config.Additional.SkinEnabled || !g_bCommandsAllowed) return;
 			if (!Utility.IsPlayerValid(player)) return;
@@ -103,7 +123,7 @@ namespace WeaponPaints
 			AddCommand($"css_{Config.Additional.CommandRefresh}", "Skins refresh", (player, info) =>
 			{
 				if (!Utility.IsPlayerValid(player)) return;
-                if (!SteamIdValidator.HasReservationPermission(player.SteamID.ToString()))
+                if (!HasReservationPermission(player.SteamID.ToString()))
                 {
                      if (!string.IsNullOrEmpty(Localizer["wp_premium_needed"]))
 						{
@@ -178,7 +198,7 @@ namespace WeaponPaints
 
 				if (player == null || player.UserId == null) return;
 
-                if (!SteamIdValidator.HasReservationPermission(player.SteamID.ToString()))
+                if (!HasReservationPermission(player.SteamID.ToString()))
                 {
                      if (!string.IsNullOrEmpty(Localizer["wp_premium_needed"]))
                             {
@@ -324,7 +344,7 @@ namespace WeaponPaints
 						if (!Utility.IsPlayerValid(player)) return;
 
 						if (player == null || player.UserId == null) return;
-                        if (!SteamIdValidator.HasReservationPermission(player.SteamID.ToString()))
+                        if (!HasReservationPermission(player.SteamID.ToString()))
                         {
                             if (!string.IsNullOrEmpty(Localizer["wp_premium_needed"]))
                             {
@@ -445,7 +465,7 @@ namespace WeaponPaints
 
 								if (player == null || player.UserId == null) return;
 
-                                if (!SteamIdValidator.HasReservationPermission(player.SteamID.ToString()))
+                                if (!HasReservationPermission(player.SteamID.ToString()))
                                 {
                                      if (!string.IsNullOrEmpty(Localizer["wp_premium_needed"]))
 										{
@@ -538,7 +558,7 @@ namespace WeaponPaints
 
 				if (player == null || player.UserId == null) return;
                
-                if (!SteamIdValidator.HasReservationPermission(player.SteamID.ToString()))
+                if (!HasReservationPermission(player.SteamID.ToString()))
 				{
                      if (!string.IsNullOrEmpty(Localizer["wp_premium_needed"]))
                             {
@@ -691,7 +711,7 @@ namespace WeaponPaints
 				if (!Utility.IsPlayerValid(player) || !g_bCommandsAllowed) return;
 
 				if (player == null || player.UserId == null) return;
-                if (!SteamIdValidator.HasReservationPermission(player.SteamID.ToString()))
+                if (!HasReservationPermission(player.SteamID.ToString()))
                 {
                      if (!string.IsNullOrEmpty(Localizer["wp_premium_needed"]))
                             {
